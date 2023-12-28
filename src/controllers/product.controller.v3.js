@@ -87,38 +87,50 @@ class ProductController {
   });
 
   addProductsToCart = catchAsync(async (req, res, next) => {
-    new SuccessReponse({
-      message: 'Add products to cart successfully!',
-    }).send(res);
+    
     const products = [];
-    req.body.product_ids.forEach(async item => {
+    for (const item of req.body.product_ids){
+      console.log(item);
       const data = await ProductServiceV3.findProduct(item);
+      console.log('check data: ', data);
       products.push(data);
-    });
+    }
+    
     publishMessageKafka({
       topic: 'product',
       action: ACTION.ADDTOCART,
       product_data: products,
       user_id: req.headers.user_id,
     });
+    new SuccessReponse({
+      message: 'Add products to cart successfully!',
+    }).send(res);
   });
 
   checkoutProducts = catchAsync(async (req, res, next) => {
-    new SuccessReponse({
-      message: 'Checkout products successfully!',
-    }).send(res);
+    
     const products = [];
-    req.body.product_ids.forEach(async item => {
+    for (const item of req.body.product_ids){
+      console.log(item);
       const data = await ProductServiceV3.findProduct(item);
+      console.log('check data: ', data);
       products.push(data);
-    });
+    }
+    // req.body.product_ids.forEach(async item => {
+    //   const data = await ProductServiceV3.findProduct(item);
+    //   products.push(data);
+    // });
     publishMessageKafka({
       topic: 'product',
       action: ACTION.BUY,
       product_data: products,
       user_id: req.headers.user_id,
     });
+    new SuccessReponse({
+      message: 'Checkout products successfully!',
+    }).send(res);
   });
+
 }
 
 module.exports = new ProductController();

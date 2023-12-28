@@ -15,6 +15,13 @@ class CategoryController {
       data: await CategoryService.getCategoryList(req.params),
     }).send(res);
   });
+
+  getProductListByCategory = catchAsync(async (req, res, next) => {
+    return new SuccessReponse({
+      message: 'Get Category list successfully!',
+      data: await CategoryService.getProductListByCategory(req.params),
+    }).send(res);
+  })
 }
 
 module.exports = new CategoryController();

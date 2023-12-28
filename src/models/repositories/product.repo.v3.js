@@ -55,9 +55,16 @@ const searchProductByText = async ({
   return results;
 };
 
+const getProductListByCategory = async ({categoryId}) => {
+  const result = await product.find({
+    'categories.id': { $eq: categoryId }
+  })
+}
+
 module.exports = {
   searchProductByText,
   queryProduct,
   findAllProducts,
   findProduct,
+  getProductListByCategory
 };
